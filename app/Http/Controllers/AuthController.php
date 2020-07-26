@@ -15,11 +15,13 @@ class AuthController extends Controller
     {
         $request->validate([
             'name'      => 'required|string',
+            'lastname'      => 'required|string',
             'email'     => 'required|string|email|unique:users',
             'password'  => 'required|string|confirmed',
         ]);
         $user = new User([
             'name'              => $request->name,
+            'lastname'              => $request->lastname,
             'email'             => $request->email,
             'password'          => bcrypt($request->password),
             'activation_token'  => Str::random(60),
@@ -67,7 +69,9 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        // return response()->json($request->user());
+        return response()->json(['user' => $request->user()]);
+        
     }
 
     public function signupActivate($token)
